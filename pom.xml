@@ -134,6 +134,27 @@
                     <target>1.5</target>
                 </configuration>
             </plugin>
+            <plugin>
+                <!-- Re-declare enforcer here to OVERRIDE the version inherited
+                     from jvnet-parent:1's <build><plugins> (which pinned 1.0).
+                     pluginManagement alone doesn't win when the parent declares
+                     the plugin directly in <plugins>; the child must redeclare
+                     in its own <plugins> too. The bazelbub mvn args already
+                     pass -Denforcer.skip=true, so the plugin won't execute —
+                     we just need it resolvable. -->
+                <artifactId>maven-enforcer-plugin</artifactId>
+                <version>3.5.0</version>
+            </plugin>
+            <plugin>
+                <!-- impl/pom.xml uses maven-bundle-plugin to generate the OSGi
+                     manifest. The version inherited from the upstream parent
+                     (6.0.2, class file v61) requires Java 17 to load.
+                     For Java-5 bytecode preservation we must use JDK 8, so pin
+                     bundle-plugin to 5.1.9 (last Java-8-compatible release). -->
+                <groupId>org.apache.felix</groupId>
+                <artifactId>maven-bundle-plugin</artifactId>
+                <version>5.1.9</version>
+            </plugin>
         </plugins>
     </build>
     <modules>
