@@ -234,11 +234,18 @@ public class JSTLXPathImpl implements javax.xml.xpath.XPath {
             null, prefixResolver, com.sun.org.apache.xpath.internal.XPath.SELECT ); 
         com.sun.org.apache.xpath.internal.XPathContext xpathSupport = null;
         if ( functionResolver != null ) {
-            com.sun.org.apache.xpath.internal.jaxp.JAXPExtensionsProvider jep = 
+            // JDK ≥ 9 removed the 2-arg (resolver, boolean) JAXPExtensionsProvider
+            // constructor; modern JDKs expose only the 1-arg variant
+            // (resolver) or a 3-arg variant with a JdkXmlFeatures parameter
+            // that's package-private outside the jdk.xml.internal module.
+            // Use the 1-arg constructor for JDK 8+ source compatibility;
+            // featureSecureProcessing is lost on this path but matches the
+            // default-off behavior of the modern XPath provider.
+            com.sun.org.apache.xpath.internal.jaxp.JAXPExtensionsProvider jep =
                     new com.sun.org.apache.xpath.internal.jaxp.JAXPExtensionsProvider(
-                    functionResolver, featureSecureProcessing );
+                    functionResolver );
             xpathSupport = new com.sun.org.apache.xpath.internal.XPathContext( jep );
-        } else { 
+        } else {
             xpathSupport = new com.sun.org.apache.xpath.internal.XPathContext();
         }
 

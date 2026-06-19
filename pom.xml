@@ -104,6 +104,14 @@
                     <artifactId>maven-compiler-plugin</artifactId>
                     <version>3.15.0</version>
                 </plugin>
+                <plugin>
+                    <!-- Upstream's parent (jvnet-parent:1) pinned maven-enforcer-plugin
+                         to 1.0, which is no longer cached by bazelbub's offline proxy.
+                         Pin the modern 3.x line; we don't actually need enforcer rules
+                         for a clean build, but explicitly disable it below. -->
+                    <artifactId>maven-enforcer-plugin</artifactId>
+                    <version>3.5.0</version>
+                </plugin>
             </plugins>
         </pluginManagement>
         <plugins>

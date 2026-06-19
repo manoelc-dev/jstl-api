@@ -163,4 +163,14 @@ public class DataSourceWrapper implements DataSource {
         throw new SQLException(Resources.getMessage("NOT_SUPPORTED"));
     }
 
+    /**
+     * JDBC 4.1 (Java 7+) CommonDataSource API. Not supported by this wrapper.
+     * Added when modernizing the jstl-1.2 build to compile on JDK 8+.
+     */
+    public java.util.logging.Logger getParentLogger()
+            throws java.sql.SQLFeatureNotSupportedException {
+        throw new java.sql.SQLFeatureNotSupportedException(
+                Resources.getMessage("NOT_SUPPORTED"));
+    }
+
 }
