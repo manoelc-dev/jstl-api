@@ -118,8 +118,20 @@
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
-                    <source>8</source>
-                    <target>8</target>
+                    <!-- Match upstream's target=1.5 to preserve Java-5
+                         bytecode compatibility for downstream consumers on
+                         older JVMs. Our source-level patches
+                         (DataSourceWrapper.getParentLogger override and the
+                         JAXPExtensionsProvider 1-arg ctor switch) use no
+                         Java 7+ syntax, so -source 1.5 still accepts them.
+                         A reference to java.sql.SQLFeatureNotSupportedException
+                         remains in the .class file: that class only exists
+                         from Java 7+, but pre-Java-7 runtimes never call
+                         getParentLogger() (CommonDataSource didn't declare
+                         it), so the symbolic reference is never resolved on
+                         those JVMs. -->
+                    <source>1.5</source>
+                    <target>1.5</target>
                 </configuration>
             </plugin>
         </plugins>
