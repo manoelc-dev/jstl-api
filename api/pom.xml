@@ -59,6 +59,12 @@
 	    <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
+                <!-- Pin to a Central-available version so bazelbub's offline
+                     .m2 proxy can resolve it. Upstream's pom leaves this
+                     unversioned; without an explicit pin, mvn falls back to
+                     plugin-version-resolution from maven-metadata.xml, which
+                     bazelbub doesn't write for plugins. -->
+                <version>3.10.1</version>
                 <executions>
                     <execution>
                         <phase>javadoc</phase>
@@ -76,7 +82,7 @@
                             </configuration>
                     </execution>
                 </executions>
-            </plugin>   
+            </plugin>
     	</plugins>
         <resources>
             <resource>
